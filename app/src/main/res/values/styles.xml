@@ -1,0 +1,40 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnPrimary</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Status bar -->
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <item name="colorControlActivated">@color/colorPrimary</item>
+
+    </style>
+
+    <style name="AppTheme.FullScreen" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3" />
+
+    <style name="AppTheme.DebugActivity" parent="AppTheme">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
+</resources>
