@@ -14,7 +14,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.CodeBySonu.VoxSherpa"
+        applicationId "com.foxlab.tts"
         namespace "com.CodeBySonu.VoxSherpa"
         minSdkVersion 30
         targetSdkVersion 36
