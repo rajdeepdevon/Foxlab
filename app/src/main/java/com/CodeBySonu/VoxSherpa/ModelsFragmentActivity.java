@@ -1921,7 +1921,8 @@ public class ModelsFragmentActivity extends Fragment {
 	
 	
 	public void _setupDataAndStorage() {
-		binding.recyclerviewModels.setLayoutManager(new LinearLayoutManager(getContext()));
+		// 🚀 YAHAN CHANGE HUA HAI: LinearLayoutManager ko hata kar GridLayoutManager (2 columns) laga diya hai
+		binding.recyclerviewModels.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(getContext(), 2));
 		
 		String savedData = sp1.getString("models_data", "[]");
 		modelList = new Gson().fromJson(savedData, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
@@ -2398,4 +2399,4 @@ public class ModelsFragmentActivity extends Fragment {
 		
 	}
 	
-}
+														}
