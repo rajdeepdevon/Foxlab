@@ -6,6 +6,7 @@
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
 	android:background="@android:color/transparent">
+	
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/bottom_player_card"
 		android:layout_width="match_parent"
@@ -14,25 +15,28 @@
 		android:layout_marginTop="4dp"
 		android:layout_marginRight="8dp"
 		android:layout_marginBottom="8dp"
-		app:cardBackgroundColor="#121826"
-		app:cardCornerRadius="12dp"
-		app:strokeColor="#1A2234"
+		app:cardBackgroundColor="#1A1D2E"
+		app:cardCornerRadius="16dp"
+		app:strokeColor="#2A2F45"
 		app:strokeWidth="1dp"
-		app:cardElevation="6dp">
+		app:cardElevation="8dp">
+		
 		<LinearLayout
 			android:id="@+id/linear10"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
+			
 			<LinearLayout
 				android:id="@+id/linear11"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:paddingLeft="12dp"
-				android:paddingTop="10dp"
+				android:paddingTop="12dp"
 				android:paddingRight="8dp"
 				android:gravity="center_vertical"
 				android:orientation="horizontal">
+				
 				<ImageView
 					android:id="@+id/btnPlayPause"
 					android:focusable="false"
@@ -41,7 +45,8 @@
 					android:background="?attr/selectableItemBackgroundBorderless"
 					android:src="@drawable/icon_play_circle"
 					android:scaleType="fitXY"
-					app:tint="#00E5FF" />
+					app:tint="#4A9EFF" />
+					
 				<LinearLayout
 					android:id="@+id/linear12"
 					android:layout_width="0dp"
@@ -50,6 +55,7 @@
 					android:layout_weight="1"
 					android:layout_marginStart="12dp"
 					android:layout_marginEnd="8dp">
+					
 					<TextView
 						android:id="@+id/tvMiniTitle"
 						android:focusable="false"
@@ -58,19 +64,21 @@
 						android:text="Select an audio to play..."
 						android:textSize="14sp"
 						android:textStyle="bold"
-						android:textColor="#FFFFFF"
+						android:textColor="#F1F5F9"
 						android:singleLine="true"
 						android:ellipsize="marquee" />
+						
 					<TextView
 						android:id="@+id/tvTime"
 						android:focusable="false"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="1dp"
+						android:layout_marginTop="2dp"
 						android:text="0:00 / 0:00"
 						android:textSize="11sp"
 						android:textColor="#94A3B8" />
 				</LinearLayout>
+				
 				<ImageView
 					android:id="@+id/btnClosePlayer"
 					android:focusable="false"
@@ -82,18 +90,20 @@
 					android:scaleType="fitXY"
 					app:tint="#94A3B8" />
 			</LinearLayout>
+			
 			<SeekBar
 				android:id="@+id/seekBar"
 				android:focusable="false"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="2dp"
-				android:layout_marginBottom="6dp"
+				android:layout_marginBottom="8dp"
 				android:max="1000"
 				android:paddingStart="12dp"
 				android:paddingEnd="12dp"
-				android:progressTint="#00E5FF"
-				android:thumbTint="#00E5FF" />
+				android:progressTint="#4A9EFF"
+				android:thumbTint="#4A9EFF"
+				android:progressBackgroundTint="#2A2F45" />
 		</LinearLayout>
 	</com.google.android.material.card.MaterialCardView>
 </LinearLayout>
