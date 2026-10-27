@@ -450,7 +450,7 @@
 		</com.google.android.material.card.MaterialCardView>
 	</LinearLayout>
 
-	<!-- Status Box (Smooth Animated from 50dp to 60dp) -->
+	<!-- Status Box (Smooth Animated, Size fixed to 60dp) -->
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/card_status"
 		android:layout_width="match_parent"
@@ -469,11 +469,11 @@
 			android:layout_height="wrap_content"
 			android:animateLayoutChanges="true">
 			
-			<!-- IDLE STATE (READY TO SYNTHESIZE) -->
+			<!-- IDLE STATE (READY TO SYNTHESIZE - Now 60dp) -->
 			<LinearLayout
 				android:id="@+id/layout_idle_state"
 				android:layout_width="match_parent"
-				android:layout_height="50dp"
+				android:layout_height="60dp" 
 				android:gravity="center"
 				android:orientation="horizontal">
 				
@@ -506,7 +506,7 @@
 					android:letterSpacing="0.05" />
 			</LinearLayout>
 			
-			<!-- GENERATED STATE (Waveform & Playback - EXACTLY 60dp) -->
+			<!-- GENERATED STATE (Waveform & Playback - 60dp) -->
 			<RelativeLayout
 				android:id="@+id/layout_generated_state"
 				android:layout_width="match_parent"
