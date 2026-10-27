@@ -8,6 +8,7 @@
 	android:orientation="vertical"
 	android:padding="16dp">
 
+	<!-- Top Bar -->
 	<RelativeLayout
 		android:id="@+id/relativelayout20"
 		android:layout_width="match_parent"
@@ -78,6 +79,7 @@
 		</LinearLayout>
 	</RelativeLayout>
 
+	<!-- Input Text Label -->
 	<RelativeLayout
 		android:id="@+id/relativelayout21"
 		android:layout_width="match_parent"
@@ -93,6 +95,7 @@
 			android:letterSpacing="0.05" />
 	</RelativeLayout>
 
+	<!-- Input Text Box -->
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/cardview26"
 		android:layout_width="match_parent"
@@ -128,7 +131,7 @@
 					android:paddingBottom="64dp"
 					android:textSize="16sp"
 					android:textColor="#F1F5F9"
-					android:hint="Type your text here to convert to speech..."
+					android:hint="Write something to convert into audio..."
 					android:textColorHint="#64748B"
 					android:gravity="top|start"
 					android:background="@null"
@@ -231,6 +234,7 @@
 		</FrameLayout>
 	</com.google.android.material.card.MaterialCardView>
 
+	<!-- ONNX Voice Model Label -->
 	<TextView
 		android:id="@+id/textview67"
 		android:layout_width="wrap_content"
@@ -241,6 +245,7 @@
 		android:textStyle="bold"
 		android:textColor="#94A3B8" />
 		
+	<!-- ONNX Voice Model Card -->
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/voice_info_card"
 		android:layout_width="match_parent"
@@ -289,7 +294,7 @@
 		</LinearLayout>
 	</com.google.android.material.card.MaterialCardView>
 
-	<!-- Hidden Layouts (Kokoro/Supertonic) - Keep as is, just updated colors -->
+	<!-- Kokoro Voice Filters (Hidden by default) -->
 	<LinearLayout
 		android:id="@+id/kokoro_voice_filters"
 		android:layout_width="match_parent"
@@ -297,6 +302,7 @@
 		android:layout_marginTop="6dp"
 		android:orientation="horizontal"
 		android:visibility="gone">
+		
 		<com.google.android.material.card.MaterialCardView
 			android:layout_width="0dp"
 			android:layout_height="56dp"
@@ -329,6 +335,7 @@
 					android:popupBackground="#1A1D2E" />
 			</LinearLayout>
 		</com.google.android.material.card.MaterialCardView>
+		
 		<com.google.android.material.card.MaterialCardView
 			android:layout_width="0dp"
 			android:layout_height="56dp"
@@ -363,6 +370,7 @@
 		</com.google.android.material.card.MaterialCardView>
 	</LinearLayout>
 
+	<!-- Supertonic Controls (Hidden by default) -->
 	<LinearLayout
 		android:id="@+id/supertonic_controls_layout"
 		android:layout_width="match_parent"
@@ -370,6 +378,7 @@
 		android:layout_marginTop="8dp"
 		android:orientation="horizontal"
 		android:visibility="gone">
+		
 		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/supertonic_voice_button"
 			android:layout_width="0dp"
@@ -385,31 +394,32 @@
 			app:strokeColor="#2A2F45"
 			app:strokeWidth="1dp"
 			app:cardElevation="0dp">
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:gravity="center_vertical"
-			android:paddingStart="12dp"
-			android:paddingEnd="8dp">
-			<TextView
-				android:id="@+id/supertonic_voice_value"
-				android:layout_width="0dp"
+			<LinearLayout
+				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:layout_weight="1"
 				android:gravity="center_vertical"
-				android:text="Supertonic • F1 English"
-				android:textColor="#F1F5F9"
-				android:textSize="14sp"
-				android:maxLines="1"
-				android:ellipsize="end" />
-			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
-				android:src="@drawable/icon_keyboard_arrow"
-				android:scaleType="fitCenter"
-				app:tint="#94A3B8" />
-		</LinearLayout>
+				android:paddingStart="12dp"
+				android:paddingEnd="8dp">
+				<TextView
+					android:id="@+id/supertonic_voice_value"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="Supertonic • F1 English"
+					android:textColor="#F1F5F9"
+					android:textSize="14sp"
+					android:maxLines="1"
+					android:ellipsize="end" />
+				<ImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:src="@drawable/icon_keyboard_arrow"
+					android:scaleType="fitCenter"
+					app:tint="#94A3B8" />
+			</LinearLayout>
 		</com.google.android.material.card.MaterialCardView>
+		
 		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/supertonic_settings_button"
 			android:layout_width="50dp"
@@ -436,15 +446,49 @@
 					android:src="@drawable/icon_settings"
 					android:scaleType="fitCenter"
 					app:tint="#4A9EFF" />
-				</LinearLayout>
+			</LinearLayout>
 		</com.google.android.material.card.MaterialCardView>
 	</LinearLayout>
 
+	<!-- ================= SYNTHESIS BAR (TARGET DESIGN) ================= -->
+	<com.google.android.material.card.MaterialCardView
+		android:layout_width="match_parent"
+		android:layout_height="46dp"
+		android:layout_marginTop="12dp"
+		app:cardBackgroundColor="#1A1D2E"
+		app:strokeColor="#2A2F45"
+		app:strokeWidth="1dp"
+		app:cardCornerRadius="12dp"
+		app:cardElevation="0dp">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:orientation="horizontal">
+			<ImageView
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:src="@drawable/icon_graphic_eq"
+				app:tint="#4A9EFF" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="SYNTHESIS"
+				android:textColor="#F1F5F9"
+				android:textSize="14sp"
+				android:textStyle="bold"
+				android:letterSpacing="0.1"
+				android:layout_marginStart="8dp" />
+		</LinearLayout>
+	</com.google.android.material.card.MaterialCardView>
+	<!-- ================================================================ -->
+
+	<!-- Status Box -->
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/card_status"
 		android:layout_width="match_parent"
 		android:layout_height="130dp"
-		android:layout_marginTop="20dp"
+		android:layout_marginTop="12dp"
 		app:cardBackgroundColor="#1A1D2E"
 		app:cardCornerRadius="16dp"
 		app:strokeColor="#2A2F45"
@@ -555,12 +599,12 @@
 		</RelativeLayout>
 	</com.google.android.material.card.MaterialCardView>
 
-	<!-- Generate Button with Gradient Background -->
+	<!-- Generate Button with Gradient -->
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/btn_generate"
 		android:layout_width="match_parent"
 		android:layout_height="50dp"
-		android:layout_marginTop="24dp"
+		android:layout_marginTop="16dp"
 		android:layout_marginBottom="8dp"
 		app:cardBackgroundColor="@android:color/transparent"
 		app:cardCornerRadius="25dp"
