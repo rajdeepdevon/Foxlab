@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	android:padding="4dp"> <!-- Padding for Grid Spacing -->
+	android:padding="4dp">
 	
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/main_cardview"
@@ -28,68 +28,82 @@
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
 				
-				<!-- Top Tags Row -->
-				<LinearLayout
-					android:id="@+id/linear11"
-					android:layout_width="wrap_content"
+				<!-- Top Row: Tags and Checkmark -->
+				<RelativeLayout
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:orientation="horizontal">
+					android:layout_marginBottom="8dp">
 					
-					<com.google.android.material.card.MaterialCardView
-						android:id="@+id/cardview7"
+					<LinearLayout
+						android:id="@+id/linear11"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						app:cardBackgroundColor="#252A40"
-						app:cardCornerRadius="6dp">
-						<TextView
-							android:id="@+id/onnx_tv"
+						android:orientation="horizontal">
+						
+						<com.google.android.material.card.MaterialCardView
+							android:id="@+id/cardview7"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="ONNX"
-							android:textSize="9sp"
-							android:textStyle="bold"
-							android:textColor="#94A3B8"
-							android:focusable="false"
-							android:paddingHorizontal="6dp"
-							android:paddingVertical="2dp" />
-					</com.google.android.material.card.MaterialCardView>
+							app:cardBackgroundColor="#252A40"
+							app:cardCornerRadius="6dp">
+							<TextView
+								android:id="@+id/onnx_tv"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="ONNX"
+								android:textSize="9sp"
+								android:textStyle="bold"
+								android:textColor="#94A3B8"
+								android:paddingHorizontal="6dp"
+								android:paddingVertical="2dp" />
+						</com.google.android.material.card.MaterialCardView>
+						
+						<com.google.android.material.card.MaterialCardView
+							android:id="@+id/cardview8"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							app:cardBackgroundColor="#1C3D33"
+							android:layout_marginStart="6dp"
+							app:cardCornerRadius="6dp">
+							<TextView
+								android:id="@+id/json_tv"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Token"
+								android:textSize="9sp"
+								android:textStyle="bold"
+								android:textColor="#48BB78"
+								android:paddingHorizontal="6dp"
+								android:paddingVertical="2dp" />
+						</com.google.android.material.card.MaterialCardView>
+					</LinearLayout>
 					
-					<com.google.android.material.card.MaterialCardView
-						android:id="@+id/cardview8"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						app:cardBackgroundColor="#1C3D33"
-						android:layout_marginStart="6dp"
-						app:cardCornerRadius="6dp">
-						<TextView
-							android:id="@+id/json_tv"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Token"
-							android:textSize="9sp"
-							android:textStyle="bold"
-							android:textColor="#48BB78"
-							android:focusable="false"
-							android:paddingHorizontal="6dp"
-							android:paddingVertical="2dp" />
-					</com.google.android.material.card.MaterialCardView>
-				</LinearLayout>
+					<!-- Green Checkmark for Selected Model -->
+					<ImageView
+						android:id="@+id/select_iv"
+						android:layout_width="18dp"
+						android:layout_height="18dp"
+						android:src="@drawable/icon_check_circle"
+						android:scaleType="fitXY"
+						android:visibility="gone"
+						app:tint="#48BB78"
+						android:layout_alignParentEnd="true"
+						android:layout_centerVertical="true" />
+				</RelativeLayout>
 				
 				<!-- Model Name -->
 				<TextView
 					android:id="@+id/txt_model_id"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="8dp"
 					android:text="Kokoro 53 Speakers"
 					android:textSize="15sp"
 					android:textStyle="bold"
 					android:textColor="#F1F5F9"
-					android:focusable="false"
 					android:ellipsize="end"
 					android:maxLines="1" />
 					
-				<!-- Subtitle (Size/Lang) -->
+				<!-- Subtitle -->
 				<TextView
 					android:id="@+id/txt_model_sub"
 					android:layout_width="match_parent"
@@ -97,55 +111,7 @@
 					android:layout_marginTop="2dp"
 					android:text="Language • Multi • 337MB"
 					android:textSize="11sp"
-					android:textColor="#94A3B8"
-					android:focusable="false" />
-				
-				<!-- Preview / Play Box (Centered to look like an icon) -->
-				<com.google.android.material.card.MaterialCardView
-					android:id="@+id/box_preview_status"
-					android:layout_width="60dp"
-					android:layout_height="60dp"
-					app:cardBackgroundColor="#0F1117"
-					android:layout_marginTop="12dp"
-					android:layout_gravity="center_horizontal"
-					app:cardCornerRadius="30dp"
-					app:strokeWidth="0dp"
-					android:focusable="true">
-					<RelativeLayout
-						android:id="@+id/relativelayout6"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent">
-						<ImageView
-							android:id="@+id/img_preview_status"
-							android:layout_width="28dp"
-							android:layout_height="28dp"
-							android:src="@drawable/icon_play_circle"
-							android:scaleType="fitXY"
-							android:focusable="false"
-							app:tint="#4A9EFF"
-							android:layout_centerInParent="true" />
-						<ProgressBar
-							android:id="@+id/progress_buffering"
-							android:focusable="false"
-							android:layout_width="28dp"
-							android:layout_height="28dp"
-							android:indeterminate="false"
-							style="?android:progressBarStyle"
-							android:visibility="gone"
-							android:layout_centerInParent="true" />
-						<ImageView
-							android:id="@+id/select_iv"
-							android:layout_width="18dp"
-							android:layout_height="18dp"
-							android:src="@drawable/icon_check_circle"
-							android:scaleType="fitXY"
-							android:focusable="false"
-							app:tint="#48BB78"
-							android:visibility="gone"
-							android:layout_alignParentBottom="true"
-							android:layout_alignParentEnd="true" />
-					</RelativeLayout>
-				</com.google.android.material.card.MaterialCardView>
+					android:textColor="#94A3B8" />
 				
 				<!-- Progress Bar -->
 				<ProgressBar
@@ -156,7 +122,6 @@
 					android:progress="12"
 					android:indeterminate="false"
 					style="?android:progressBarStyleHorizontal"
-					android:focusable="false"
 					android:progressTint="#4A9EFF"
 					android:progressBackgroundTint="#2A2F45"
 					android:visibility="gone" />
@@ -176,19 +141,16 @@
 						android:layout_weight="1"
 						android:layout_height="32dp"
 						app:cardBackgroundColor="#4A9EFF"
-						app:cardCornerRadius="8dp"
-						android:focusable="true">
+						app:cardCornerRadius="8dp">
 						<TextView
 							android:id="@+id/use_remove_tv"
-							android:layout_width="wrap_content"
+							android:layout_width="match_parent"
 							android:layout_height="match_parent"
-							android:gravity="center_horizontal|center_vertical"
-							android:text="Use Voice"
+							android:gravity="center"
+							android:text="Download"
 							android:textSize="12sp"
 							android:textStyle="bold"
-							android:textColor="#FFFFFF"
-							android:focusable="false"
-							android:paddingHorizontal="8dp" />
+							android:textColor="#FFFFFF" />
 					</com.google.android.material.card.MaterialCardView>
 					
 					<com.google.android.material.card.MaterialCardView
@@ -198,7 +160,7 @@
 						app:cardBackgroundColor="#252A40"
 						android:layout_marginStart="8dp"
 						app:cardCornerRadius="8dp"
-						android:focusable="true">
+						android:visibility="gone">
 						<ImageView
 							android:id="@+id/imageview9"
 							android:layout_width="match_parent"
@@ -206,7 +168,6 @@
 							android:padding="6dp"
 							android:src="@drawable/icon_delete"
 							android:scaleType="fitXY"
-							android:focusable="false"
 							app:tint="#94A3B8" />
 					</com.google.android.material.card.MaterialCardView>
 				</LinearLayout>
