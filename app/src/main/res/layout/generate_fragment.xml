@@ -450,12 +450,13 @@
 		</com.google.android.material.card.MaterialCardView>
 	</LinearLayout>
 
-	<!-- ================= SMART STATUS BOX (Synthesis Bar + Waveform) ================= -->
+	<!-- Status Box (Smooth Animated from 50dp to 60dp) -->
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/card_status"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="12dp"
+		android:animateLayoutChanges="true" 
 		app:cardBackgroundColor="#1A1D2E"
 		app:cardCornerRadius="12dp"
 		app:strokeColor="#2A2F45"
@@ -465,9 +466,10 @@
 		<RelativeLayout
 			android:id="@+id/relativelayout2"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:animateLayoutChanges="true">
 			
-			<!-- IDLE STATE (Looks like the thin Synthesis Bar) -->
+			<!-- IDLE STATE (READY TO SYNTHESIZE) -->
 			<LinearLayout
 				android:id="@+id/layout_idle_state"
 				android:layout_width="match_parent"
@@ -504,61 +506,67 @@
 					android:letterSpacing="0.05" />
 			</LinearLayout>
 			
-			<!-- GENERATED STATE (Waveform and Playback) -->
+			<!-- GENERATED STATE (Waveform & Playback - EXACTLY 60dp) -->
 			<RelativeLayout
 				android:id="@+id/layout_generated_state"
 				android:layout_width="match_parent"
-				android:layout_height="130dp"
-				android:padding="16dp"
+				android:layout_height="60dp"
+				android:paddingHorizontal="12dp"
 				android:visibility="gone">
 				
-				<ImageView
-					android:id="@+id/img_waveform"
+				<!-- Waveform Area -->
+				<RelativeLayout
 					android:layout_width="match_parent"
-					android:layout_height="60dp"
-					android:layout_marginTop="5dp"
-					android:src="@drawable/default_image"
-					android:scaleType="fitCenter"
-					app:tint="#4A9EFF"
-					android:layout_centerHorizontal="true"
-					android:layout_alignParentTop="true" />
+					android:layout_height="match_parent"
+					android:layout_marginEnd="36dp">
 					
-				<View
-					android:id="@+id/playhead_line"
-					android:layout_width="2dp"
-					android:layout_height="60dp"
-					android:layout_marginTop="5dp"
-					android:background="#8B5CF6"
-					android:elevation="2dp"
-					android:visibility="gone"
-					android:layout_alignParentTop="true"
-					android:layout_alignParentStart="true" />
-					
+					<ImageView
+						android:id="@+id/img_waveform"
+						android:layout_width="match_parent"
+						android:layout_height="30dp"
+						android:layout_centerVertical="true"
+						android:src="@drawable/default_image"
+						android:scaleType="fitXY"
+						app:tint="#4A9EFF" />
+						
+					<View
+						android:id="@+id/playhead_line"
+						android:layout_width="2dp"
+						android:layout_height="30dp"
+						android:background="#8B5CF6"
+						android:elevation="2dp"
+						android:visibility="gone"
+						android:layout_centerVertical="true"
+						android:layout_alignParentStart="true" />
+				</RelativeLayout>
+
+				<!-- Time (Bottom Left) -->
 				<TextView
 					android:id="@+id/tv_duration"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="0:24 seconds"
-					android:textSize="13sp"
+					android:text="0:01"
+					android:textSize="10sp"
 					android:textColor="#94A3B8"
 					android:layout_alignParentBottom="true"
-					android:layout_alignParentStart="true" />
+					android:layout_alignParentStart="true"
+					android:layout_marginBottom="4dp"/>
 					
+				<!-- Share Button (Right Center) -->
 				<com.google.android.material.card.MaterialCardView
 					android:id="@+id/btn_export"
-					android:layout_width="36dp"
-					android:layout_height="36dp"
+					android:layout_width="28dp"
+					android:layout_height="28dp"
 					app:cardBackgroundColor="#252A40"
-					app:cardCornerRadius="8dp"
+					app:cardCornerRadius="6dp"
 					app:strokeWidth="0dp"
-					android:layout_alignParentBottom="true"
-					android:layout_alignParentEnd="true">
+					android:layout_alignParentEnd="true"
+					android:layout_centerVertical="true">
 					<ImageView
 						android:id="@+id/imageview2"
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
-						android:padding="8dp"
-						android:background="?attr/selectableItemBackground"
+						android:padding="5dp"
 						android:src="@drawable/icon_ios_share"
 						android:scaleType="fitXY"
 						app:tint="#94A3B8" />
