@@ -73,9 +73,6 @@ public class ModelsFragmentActivity extends Fragment {
 	private BottomSheetDialog importDialog;
 	private View dialogView;
 	private int lastGeneratedSampleRate = 22050;
-	private volatile android.media.AudioTrack supertonicPreviewTrack;
-	private volatile int supertonicPreviewPosition = -1;
-	private volatile int supertonicPreviewGeneration;
 	private volatile com.CodeBySonu.VoxSherpa.SupertonicModelFiles.DownloadTask supertonicDownloadTask;
 	private volatile com.CodeBySonu.VoxSherpa.KokoroModelFiles.DownloadTask kokoroDownloadTask;
 	private final java.util.concurrent.ConcurrentHashMap<String, com.CodeBySonu.VoxSherpa.PiperModelCatalog.DownloadTask> piperDownloadTasks = new java.util.concurrent.ConcurrentHashMap<>();
@@ -272,111 +269,13 @@ public class ModelsFragmentActivity extends Fragment {
 	}
 	
 	@Override public void onResume() { super.onResume(); _syncMmsCatalog(); }
-	@Override public void onDestroyView() { stopSupertonicPreview(); super.onDestroyView(); binding = null; }
+	@Override public void onDestroyView() { super.onDestroyView(); binding = null; }
 	
 	public void _updateEmptyState() {
 		boolean empty = modelList.isEmpty();
 		binding.recyclerviewModels.setVisibility(empty ? View.GONE : View.VISIBLE);
 		binding.emptyStateView.setVisibility(empty ? View.VISIBLE : View.GONE);
 		binding.modelCountTv.setText("MODELS LIST (" + modelList.size() + ")");
-	}
-
-	private void playSupertonicPreview(HashMap<String, Object> item, int position, View row, String modelDir) {
-		stopSupertonicPreview();
-		if (modelDir == null || modelDir.trim().isEmpty() || !com.CodeBySonu.VoxSherpa.SupertonicModelFiles.isInstalled(new File(modelDir))) {
-			Snackbar.make(row, "Download Supertonic V3 before previewing it.", Snackbar.LENGTH_SHORT).show(); return;
-		}
-		com.CodeBySonu.VoxSherpa.AudioSampleHelper.getInstance().stopAudio();
-		for (int i = 0; i < modelList.size(); i++) {
-			HashMap<String, Object> model = modelList.get(i);
-			if ("true".equals(model.get("is_playing")) || "true".equals(model.get("is_buffering"))) {
-				model.put("is_playing", "false"); model.put("is_buffering", "false");
-				if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(i);
-			}
-		}
-		final int previewGeneration = supertonicPreviewGeneration;
-		item.put("is_buffering", "true"); item.put("is_playing", "false");
-		if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(position);
-		android.content.Context appContext = requireContext().getApplicationContext();
-		new Thread(() -> {
-			android.media.AudioTrack track = null;
-			try {
-				com.CodeBySonu.VoxSherpa.SupertonicEngine engine = com.CodeBySonu.VoxSherpa.SupertonicEngine.getInstance();
-				String loadResult = engine.loadModel(appContext, modelDir, "en");
-				if (!"Success".equals(loadResult)) throw new IllegalStateException(loadResult);
-				int previousSpeaker = engine.getActiveSpeakerId(); engine.setActiveSpeakerId(0);
-				byte[] pcm;
-				try { pcm = engine.generateAudioPCM("Supertonic engine ready", 1.0f, 1.0f, "en", com.CodeBySonu.VoxSherpa.SupertonicEngine.DEFAULT_GENERATION_STEPS); } finally { engine.setActiveSpeakerId(previousSpeaker); }
-				if (previewGeneration != supertonicPreviewGeneration) return;
-				if (pcm == null || pcm.length == 0) throw new IllegalStateException("Supertonic did not return preview audio.");
-				int sampleRate = engine.getSampleRate();
-				if (sampleRate <= 0) throw new IllegalStateException("Supertonic sample rate is unavailable.");
-				track = new android.media.AudioTrack(android.media.AudioManager.STREAM_MUSIC, sampleRate, android.media.AudioFormat.CHANNEL_OUT_MONO, android.media.AudioFormat.ENCODING_PCM_16BIT, pcm.length, android.media.AudioTrack.MODE_STATIC);
-				int written = track.write(pcm, 0, pcm.length);
-				if (written != pcm.length) throw new IllegalStateException("Unable to prepare preview audio.");
-				if (previewGeneration != supertonicPreviewGeneration) { track.release(); return; }
-				synchronized (this) {
-					if (previewGeneration != supertonicPreviewGeneration) { track.release(); return; }
-					supertonicPreviewTrack = track; supertonicPreviewPosition = position;
-				}
-				android.media.AudioTrack playbackTrack = track; playbackTrack.play();
-				android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-				mainHandler.post(() -> {
-					if (previewGeneration != supertonicPreviewGeneration) return;
-					item.put("is_buffering", "false"); item.put("is_playing", "true");
-					if (binding != null && binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(position);
-				});
-				int frameCount = pcm.length / 2;
-				while (previewGeneration == supertonicPreviewGeneration && supertonicPreviewTrack == playbackTrack && playbackTrack.getPlaybackHeadPosition() < frameCount && playbackTrack.getPlayState() == android.media.AudioTrack.PLAYSTATE_PLAYING) Thread.sleep(50);
-				if (previewGeneration == supertonicPreviewGeneration) finishSupertonicPreview(playbackTrack, item, position, row, null);
-			} catch (Throwable error) {
-				if (previewGeneration != supertonicPreviewGeneration) {
-					if (track != null && track != supertonicPreviewTrack) { try { track.release(); } catch (IllegalStateException ignored) {} } return;
-				}
-				if (track != null && track == supertonicPreviewTrack) { finishSupertonicPreview(track, item, position, row, error); return; }
-				if (track != null) { try { track.release(); } catch (IllegalStateException ignored) {} }
-				String errorMessage = error.getMessage(); if (errorMessage == null || errorMessage.trim().isEmpty()) errorMessage = error.getClass().getSimpleName();
-				final String failureMessage = errorMessage;
-				android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-				mainHandler.post(() -> {
-					item.put("is_buffering", "false"); item.put("is_playing", "false");
-					if (binding != null && binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(position);
-					Snackbar.make(row, "Supertonic preview failed: " + failureMessage, Snackbar.LENGTH_LONG).show();
-				});
-			}
-		}, "supertonic-model-preview").start();
-	}
-
-	private void finishSupertonicPreview(android.media.AudioTrack track, HashMap<String, Object> item, int position, View row, Throwable error) {
-		android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-		mainHandler.post(() -> {
-			if (supertonicPreviewTrack != track) return;
-			supertonicPreviewTrack = null; supertonicPreviewPosition = -1;
-			item.put("is_buffering", "false"); item.put("is_playing", "false");
-			try { if (track.getPlayState() == android.media.AudioTrack.PLAYSTATE_PLAYING) track.stop(); } catch (IllegalStateException ignored) {}
-			try { track.release(); } catch (IllegalStateException ignored) {}
-			if (binding != null && binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(position);
-			if (error != null) {
-				String errorMessage = error.getMessage(); if (errorMessage == null || errorMessage.trim().isEmpty()) errorMessage = error.getClass().getSimpleName();
-				Snackbar.make(row, "Supertonic preview failed: " + errorMessage, Snackbar.LENGTH_LONG).show();
-			}
-		});
-	}
-
-	private void stopSupertonicPreview() {
-		int position; android.media.AudioTrack track;
-		synchronized (this) {
-			supertonicPreviewGeneration++; position = supertonicPreviewPosition; supertonicPreviewPosition = -1; track = supertonicPreviewTrack; supertonicPreviewTrack = null;
-		}
-		if (track != null) {
-			try { if (track.getPlayState() == android.media.AudioTrack.PLAYSTATE_PLAYING) track.stop(); } catch (IllegalStateException error) {}
-			try { track.release(); } catch (IllegalStateException error) {}
-		}
-		if (position >= 0 && position < modelList.size()) {
-			HashMap<String, Object> item = modelList.get(position);
-			item.put("is_playing", "false"); item.put("is_buffering", "false");
-			if (binding != null && binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(position);
-		}
 	}
 	
 	public void _setupRecyclerViewAdapter() {
@@ -427,7 +326,6 @@ public class ModelsFragmentActivity extends Fragment {
 				String size = item.containsKey("size") ? item.get("size").toString() : "0 MB";
 				String currentOnnx = item.containsKey("onnx_path") && item.get("onnx_path") != null ? item.get("onnx_path").toString() : "";
 				String currentModelDir = item.containsKey("model_dir") && item.get("model_dir") != null ? item.get("model_dir").toString() : "";
-				final String audioUrlToPlay = item.containsKey("semple") && item.get("semple") != null ? item.get("semple").toString().trim() : "";
 				
 				boolean isDownloaded = isSupertonic ? com.CodeBySonu.VoxSherpa.SupertonicModelFiles.isInstalled(new java.io.File(currentModelDir)) : isKokoro ? com.CodeBySonu.VoxSherpa.KokoroModelFiles.isInstalled(new java.io.File(currentModelDir)) : isPiperArchive ? com.CodeBySonu.VoxSherpa.PiperModelCatalog.isInstalled(new java.io.File(currentModelDir)) : !currentOnnx.isEmpty();
 				boolean isDownloading = item.containsKey("is_downloading") && item.get("is_downloading").toString().equals("true");
@@ -439,8 +337,7 @@ public class ModelsFragmentActivity extends Fragment {
 				
 				android.widget.ImageView selectIv = v.findViewById(R.id.select_iv); android.widget.TextView useRemoveTv = v.findViewById(R.id.use_remove_tv);
 				com.google.android.material.card.MaterialCardView btnUseVoice = v.findViewById(R.id.btn_use_voice); com.google.android.material.card.MaterialCardView btnDelete = v.findViewById(R.id.btn_delete);
-				android.widget.TextView txtModelSub = v.findViewById(R.id.txt_model_sub); com.google.android.material.card.MaterialCardView boxPreviewStatus = v.findViewById(R.id.box_preview_status);
-				android.widget.ImageView imgPreview = v.findViewById(R.id.img_preview_status); android.widget.ProgressBar progressBar = v.findViewById(R.id.progress_download); android.widget.ProgressBar progressBuffering = v.findViewById(R.id.progress_buffering);
+				android.widget.TextView txtModelSub = v.findViewById(R.id.txt_model_sub); android.widget.ProgressBar progressBar = v.findViewById(R.id.progress_download);
 				
 				if (isDownloaded) {
 					progressBar.setVisibility(android.view.View.GONE); btnDelete.setVisibility(android.view.View.VISIBLE);
@@ -455,33 +352,6 @@ public class ModelsFragmentActivity extends Fragment {
 					progressBar.setVisibility(android.view.View.GONE); btnDelete.setVisibility(android.view.View.GONE);
 					txtModelSub.setText(lang + " • " + gender + " • " + size); selectIv.setVisibility(android.view.View.GONE); useRemoveTv.setText("Download"); btnUseVoice.setCardBackgroundColor(android.graphics.Color.parseColor("#1D61FF"));
 				}
-				
-				if (item.containsKey("is_playing") && item.get("is_playing").equals("true")) { imgPreview.setVisibility(android.view.View.VISIBLE); imgPreview.setImageResource(R.drawable.icon_pause_circle); if (progressBuffering != null) progressBuffering.setVisibility(android.view.View.GONE); } 
-				else if (item.containsKey("is_buffering") && item.get("is_buffering").equals("true")) { imgPreview.setVisibility(android.view.View.GONE); if (progressBuffering != null) progressBuffering.setVisibility(android.view.View.VISIBLE); } 
-				else {
-					if (audioUrlToPlay.isEmpty() && !isSupertonic) boxPreviewStatus.setVisibility(android.view.View.GONE);
-					else { boxPreviewStatus.setVisibility(android.view.View.VISIBLE); imgPreview.setVisibility(android.view.View.VISIBLE); imgPreview.setImageResource(R.drawable.icon_play_circle); }
-					if (progressBuffering != null) progressBuffering.setVisibility(android.view.View.GONE);
-				}
-				
-				boxPreviewStatus.setOnClickListener(view -> {
-					if (isSupertonic) {
-						if (item.containsKey("is_playing") && "true".equals(item.get("is_playing"))) { stopSupertonicPreview(); item.put("is_playing", "false"); item.put("is_buffering", "false"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(pos); } 
-						else if ("true".equals(item.get("is_buffering"))) { stopSupertonicPreview(); item.put("is_playing", "false"); item.put("is_buffering", "false"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(pos); } 
-						else playSupertonicPreview(item, pos, v, currentModelDir);
-						return;
-					}
-					if (audioUrlToPlay.isEmpty()) { com.google.android.material.snackbar.Snackbar.make(v, "Sample audio not available.", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show(); return; }
-					stopSupertonicPreview();
-					if (item.containsKey("is_playing") && item.get("is_playing").equals("true")) { com.CodeBySonu.VoxSherpa.AudioSampleHelper.getInstance().stopAudio(); item.put("is_playing", "false"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(pos); return; }
-					for (int i = 0; i < modelList.size(); i++) { java.util.HashMap<String, Object> m = modelList.get(i); if ("true".equals(m.get("is_playing")) || "true".equals(m.get("is_buffering"))) { m.put("is_playing", "false"); m.put("is_buffering", "false"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(i); } }
-					item.put("is_buffering", "true"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(pos);
-					com.CodeBySonu.VoxSherpa.AudioSampleHelper.getInstance().playSample(v.getContext(), audioUrlToPlay, new com.CodeBySonu.VoxSherpa.AudioSampleHelper.SamplePlayListener() {
-						@Override public void onPlayStarted() { if (getActivity() != null) getActivity().runOnUiThread(() -> { item.put("is_buffering", "false"); item.put("is_playing", "true"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(pos); }); }
-						@Override public void onPlayStopped() { if (getActivity() != null) getActivity().runOnUiThread(() -> { item.put("is_playing", "false"); item.put("is_buffering", "false"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(pos); }); }
-						@Override public void onError(String error) { if (getActivity() != null) getActivity().runOnUiThread(() -> { item.put("is_playing", "false"); item.put("is_buffering", "false"); if (binding.recyclerviewModels.getAdapter() != null) binding.recyclerviewModels.getAdapter().notifyItemChanged(pos); com.google.android.material.snackbar.Snackbar.make(v, "Playback Error", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show(); }); }
-					});
-				});
 				
 				final String capturedOnnx = currentOnnx; final String capturedTokens = item.containsKey("tokens_path") && item.get("tokens_path") != null ? item.get("tokens_path").toString() : "";
 				final String capturedVoicesBin = item.containsKey("voices_bin_path") && item.get("voices_bin_path") != null ? item.get("voices_bin_path").toString() : "";
