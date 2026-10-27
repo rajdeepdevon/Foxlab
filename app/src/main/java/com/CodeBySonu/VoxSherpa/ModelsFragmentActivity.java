@@ -332,8 +332,14 @@ public class ModelsFragmentActivity extends Fragment {
 				int progress = item.containsKey("download_progress") ? Integer.parseInt(item.get("download_progress").toString()) : 0;
 				
 				String activeOnnx = sp1.getString("active_model", ""); String activeModelType = sp1.getString("active_model_type", ""); String activeSupertonicDir = sp1.getString("active_supertonic_dir", "");
-				boolean isActiveModel = !currentOnnx.isEmpty() && currentOnnx.equals(activeOnnx) && (activeModelType.isEmpty() || activeModelType.equalsIgnoreCase(isSupertonic ? com.CodeBySonu.VoxSherpa.SupertonicModelFiles.MODEL_TYPE : String.valueOf(item.get("type"))));
-				if (isSupertonic && !currentModelDir.isEmpty() && currentModelDir.equals(activeSupertonicDir) && activeModelType.equalsIgnoreCase(com.CodeBySonu.VoxSherpa.SupertonicModelFiles.MODEL_TYPE)) isActiveModel = true;
+				
+				// FIXED LOGIC: Simplified check for Active Model (Green Tick & Remove Button)
+				boolean isActiveModel = false;
+				if (isSupertonic) {
+					isActiveModel = !currentModelDir.isEmpty() && currentModelDir.equals(activeSupertonicDir) && activeModelType.equalsIgnoreCase(com.CodeBySonu.VoxSherpa.SupertonicModelFiles.MODEL_TYPE);
+				} else {
+					isActiveModel = !currentOnnx.isEmpty() && currentOnnx.equals(activeOnnx);
+				}
 				
 				android.widget.ImageView selectIv = v.findViewById(R.id.select_iv); android.widget.TextView useRemoveTv = v.findViewById(R.id.use_remove_tv);
 				com.google.android.material.card.MaterialCardView btnUseVoice = v.findViewById(R.id.btn_use_voice); com.google.android.material.card.MaterialCardView btnDelete = v.findViewById(R.id.btn_delete);
