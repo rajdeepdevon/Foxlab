@@ -8,6 +8,7 @@
 	android:paddingTop="12dp"
 	android:paddingBottom="24dp"
 	android:orientation="vertical">
+	
 	<View
 		android:id="@+id/view_handle"
 		android:layout_width="40dp"
@@ -15,6 +16,7 @@
 		android:layout_marginBottom="16dp"
 		android:background="#414D63"
 		android:layout_gravity="center_horizontal" />
+		
 	<TextView
 		android:id="@+id/tv_sort_title"
 		android:layout_width="wrap_content"
@@ -23,9 +25,10 @@
 		android:text="Filter &amp; Sort"
 		android:textSize="16sp"
 		android:textStyle="bold"
-		android:textColor="#FFFFFF"
+		android:textColor="#F1F5F9"
 		android:focusable="false"
 		android:layout_marginStart="16dp" />
+		
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/textinputlayout2"
 		android:layout_width="match_parent"
@@ -34,7 +37,8 @@
 		android:layout_marginStart="16dp"
 		android:layout_marginEnd="16dp"
 		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-		app:boxStrokeColor="#00E5FF"
+		app:boxBackgroundColor="#1A1D2E"
+		app:boxStrokeColor="#4A9EFF"
 		app:hintTextColor="#94A3B8">
 		<AutoCompleteTextView
 			android:id="@+id/dropdown_lang"
@@ -44,18 +48,21 @@
 			android:paddingTop="14dp"
 			android:paddingBottom="14dp"
 			android:textSize="14sp"
-			android:textColor="#FFFFFF"
+			android:textColor="#F1F5F9"
 			android:hint="Select Language"
-			android:inputType="none" />
+			android:inputType="none"
+			android:popupBackground="#1A1D2E" />
 	</com.google.android.material.textfield.TextInputLayout>
+	
 	<View
 		android:id="@+id/view2"
 		android:layout_width="match_parent"
 		android:layout_height="1dp"
 		android:layout_marginBottom="8dp"
-		android:background="#2A344A"
+		android:background="#2A2F45"
 		android:layout_marginStart="16dp"
 		android:layout_marginEnd="16dp" />
+		
 	<LinearLayout
 		android:id="@+id/layout_all_models"
 		android:layout_width="match_parent"
@@ -73,7 +80,7 @@
 			android:text="All Models"
 			android:textSize="14sp"
 			android:textStyle="bold"
-			android:textColor="#FFFFFF"
+			android:textColor="#F1F5F9"
 			android:layout_weight="1"
 			android:focusable="false" />
 		<RadioButton
@@ -83,8 +90,9 @@
 			android:textSize="12sp"
 			android:clickable="false"
 			android:focusable="false"
-			android:buttonTint="#00E5FF" />
+			android:buttonTint="#4A9EFF" />
 	</LinearLayout>
+	
 	<LinearLayout
 		android:id="@+id/layout_download"
 		android:layout_width="match_parent"
@@ -102,7 +110,7 @@
 			android:text="Download"
 			android:textSize="14sp"
 			android:textStyle="bold"
-			android:textColor="#FFFFFF"
+			android:textColor="#F1F5F9"
 			android:layout_weight="1"
 			android:focusable="false" />
 		<RadioButton
@@ -112,8 +120,9 @@
 			android:textSize="12sp"
 			android:clickable="false"
 			android:focusable="false"
-			android:buttonTint="#00E5FF" />
+			android:buttonTint="#4A9EFF" />
 	</LinearLayout>
+	
 	<LinearLayout
 		android:id="@+id/layout_installed"
 		android:layout_width="match_parent"
@@ -131,7 +140,7 @@
 			android:text="Installed"
 			android:textSize="14sp"
 			android:textStyle="bold"
-			android:textColor="#FFFFFF"
+			android:textColor="#F1F5F9"
 			android:layout_weight="1"
 			android:focusable="false" />
 		<RadioButton
@@ -141,8 +150,9 @@
 			android:textSize="12sp"
 			android:clickable="false"
 			android:focusable="false"
-			android:buttonTint="#00E5FF" />
+			android:buttonTint="#4A9EFF" />
 	</LinearLayout>
+	
 	<LinearLayout
 		android:id="@+id/layout_newest"
 		android:layout_width="match_parent"
@@ -160,7 +170,7 @@
 			android:text="Newest"
 			android:textSize="14sp"
 			android:textStyle="bold"
-			android:textColor="#FFFFFF"
+			android:textColor="#F1F5F9"
 			android:layout_weight="1"
 			android:focusable="false" />
 		<RadioButton
@@ -170,8 +180,9 @@
 			android:textSize="12sp"
 			android:clickable="false"
 			android:focusable="false"
-			android:buttonTint="#00E5FF" />
+			android:buttonTint="#4A9EFF" />
 	</LinearLayout>
+	
 	<LinearLayout
 		android:id="@+id/layout_oldest"
 		android:layout_width="match_parent"
@@ -189,7 +200,7 @@
 			android:text="Oldest"
 			android:textSize="14sp"
 			android:textStyle="bold"
-			android:textColor="#FFFFFF"
+			android:textColor="#F1F5F9"
 			android:layout_weight="1"
 			android:focusable="false" />
 		<RadioButton
@@ -199,6 +210,6 @@
 			android:textSize="12sp"
 			android:clickable="false"
 			android:focusable="false"
-			android:buttonTint="#00E5FF" />
+			android:buttonTint="#4A9EFF" />
 	</LinearLayout>
 </LinearLayout>
