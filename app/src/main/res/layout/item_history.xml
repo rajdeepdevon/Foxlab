@@ -23,15 +23,16 @@
 			android:layout_height="wrap_content"
 			android:padding="12dp">
 
-			<!-- Play Button -->
+			<!-- Play Button (Rounded Square) -->
 			<com.google.android.material.card.MaterialCardView
 				android:id="@+id/btn_play_item"
 				android:layout_width="48dp"
 				android:layout_height="48dp"
 				android:layout_centerVertical="true"
-				app:cardBackgroundColor="#4A9EFF"
-				app:cardCornerRadius="24dp"
-				app:strokeWidth="0dp"
+				app:cardBackgroundColor="#252A40"
+				app:cardCornerRadius="12dp"
+				app:strokeColor="#2A2F45"
+				app:strokeWidth="1dp"
 				app:cardElevation="0dp">
 				
 				<ImageView
@@ -41,10 +42,10 @@
 					android:padding="12dp"
 					android:src="@drawable/icon_play_circle"
 					android:scaleType="fitCenter"
-					app:tint="#FFFFFF" />
+					app:tint="#F1F5F9" />
 			</com.google.android.material.card.MaterialCardView>
 
-			<!-- More Options / Share Icon -->
+			<!-- More Options (3 Dots / Share) -->
 			<ImageView
 				android:id="@+id/btn_share"
 				android:layout_width="24dp"
@@ -59,8 +60,8 @@
 			<!-- Heart Icon -->
 			<ImageView
 				android:id="@+id/btn_favorite"
-				android:layout_width="24dp"
-				android:layout_height="24dp"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
 				android:layout_marginEnd="16dp"
 				android:layout_toStartOf="@id/btn_share"
 				android:layout_centerVertical="true"
@@ -85,7 +86,7 @@
 					android:id="@+id/txt_title"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="This is a full system voice test..."
+					android:text="Narration_01.mp5"
 					android:textSize="15sp"
 					android:textStyle="bold"
 					android:textColor="#F1F5F9"
@@ -98,15 +99,15 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="2dp"
-					android:text="0:11 • Apr 25, 2026"
+					android:text="Date 02:51, 2024"
 					android:textSize="11sp"
 					android:textColor="#94A3B8" />
 
-				<!-- Waveform Placeholder & Voice Name -->
+				<!-- Voice Name & Dummy Waveform -->
 				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="6dp"
+					android:layout_marginTop="8dp"
 					android:gravity="center_vertical"
 					android:orientation="horizontal">
 
@@ -122,10 +123,10 @@
 						android:maxLines="1"
 						android:layout_marginEnd="8dp"/>
 						
-					<!-- Dummy Waveform Image -->
+					<!-- Dummy Waveform Graphic -->
 					<ImageView
 						android:layout_width="0dp"
-						android:layout_height="16dp"
+						android:layout_height="20dp"
 						android:layout_weight="1"
 						android:src="@drawable/icon_graphic_eq"
 						android:scaleType="fitXY"
