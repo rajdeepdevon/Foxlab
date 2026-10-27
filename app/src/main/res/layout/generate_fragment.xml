@@ -450,47 +450,14 @@
 		</com.google.android.material.card.MaterialCardView>
 	</LinearLayout>
 
-	<!-- ================= SYNTHESIS BAR (TARGET DESIGN) ================= -->
-	<com.google.android.material.card.MaterialCardView
-		android:layout_width="match_parent"
-		android:layout_height="46dp"
-		android:layout_marginTop="12dp"
-		app:cardBackgroundColor="#1A1D2E"
-		app:strokeColor="#2A2F45"
-		app:strokeWidth="1dp"
-		app:cardCornerRadius="12dp"
-		app:cardElevation="0dp">
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:gravity="center"
-			android:orientation="horizontal">
-			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
-				android:src="@drawable/icon_graphic_eq"
-				app:tint="#4A9EFF" />
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="SYNTHESIS"
-				android:textColor="#F1F5F9"
-				android:textSize="14sp"
-				android:textStyle="bold"
-				android:letterSpacing="0.1"
-				android:layout_marginStart="8dp" />
-		</LinearLayout>
-	</com.google.android.material.card.MaterialCardView>
-	<!-- ================================================================ -->
-
-	<!-- Status Box -->
+	<!-- ================= SMART STATUS BOX (Synthesis Bar + Waveform) ================= -->
 	<com.google.android.material.card.MaterialCardView
 		android:id="@+id/card_status"
 		android:layout_width="match_parent"
-		android:layout_height="130dp"
+		android:layout_height="wrap_content"
 		android:layout_marginTop="12dp"
 		app:cardBackgroundColor="#1A1D2E"
-		app:cardCornerRadius="16dp"
+		app:cardCornerRadius="12dp"
 		app:strokeColor="#2A2F45"
 		app:strokeWidth="1dp"
 		app:cardElevation="0dp">
@@ -498,28 +465,28 @@
 		<RelativeLayout
 			android:id="@+id/relativelayout2"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="wrap_content">
 			
+			<!-- IDLE STATE (Looks like the thin Synthesis Bar) -->
 			<LinearLayout
 				android:id="@+id/layout_idle_state"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:gravity="center_horizontal"
-				android:orientation="vertical"
-				android:layout_centerInParent="true">
+				android:layout_width="match_parent"
+				android:layout_height="50dp"
+				android:gravity="center"
+				android:orientation="horizontal">
 				
 				<ImageView
 					android:id="@+id/imageview65"
-					android:layout_width="32dp"
-					android:layout_height="32dp"
+					android:layout_width="20dp"
+					android:layout_height="20dp"
 					android:src="@drawable/icon_graphic_eq"
 					android:scaleType="fitCenter"
 					app:tint="#4A9EFF" />
 					
 				<ProgressBar
 					android:id="@+id/progress_generating"
-					android:layout_width="32dp"
-					android:layout_height="32dp"
+					android:layout_width="20dp"
+					android:layout_height="20dp"
 					android:indeterminate="false"
 					style="?android:progressBarStyle"
 					android:visibility="gone"
@@ -529,18 +496,19 @@
 					android:id="@+id/textview69"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="10dp"
+					android:layout_marginStart="8dp"
 					android:text="READY TO SYNTHESIZE"
-					android:textSize="12sp"
+					android:textSize="13sp"
 					android:textStyle="bold"
 					android:textColor="#4A9EFF"
 					android:letterSpacing="0.05" />
 			</LinearLayout>
 			
+			<!-- GENERATED STATE (Waveform and Playback) -->
 			<RelativeLayout
 				android:id="@+id/layout_generated_state"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="130dp"
 				android:padding="16dp"
 				android:visibility="gone">
 				
